@@ -1,0 +1,114 @@
+<template>
+    <div>
+        <!-- Header -->
+    <div class="container-fluid" id="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand text-white" href="#">MMC-Note</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <router-link to="/" class="nav-link">Home</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/note/create" class="nav-link">Create Note</router-link>
+                        </li>
+                    </ul>
+                    <div class="form-inline mr-5">
+                        <div class="dropdown">
+                            <span id="option" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" class="btn btn-lg bg-dark text-white btn-rounded">
+                                <i class="fas fa-cog"></i>
+                            </span>
+                            <br>
+                            <div class="dropdown-menu text-center bg-dark" aria-labelledby="option">
+                                <span class="fa fa-user text-white"></span><br>
+                                <span class="fas fa-tags text-white mt-4"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="text-white">Welcome From MM-Coder Note</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium
+                        sequi voluptas similique sed minima rerum labore reprehenderit, illo
+                        recusandae quasi tempore placeat aliquam autem, a soluta nisi totam
+                        temporibus dolorem!
+                    </p>
+                    <div v-if="!$root.user">
+                        <router-link to="/register" class="btn btn-outline-primary m-2">Register</router-link>
+                        <router-link to="/login" class="btn btn-outline-primary">Login</router-link>
+                    </div>
+                    <button v-else class="btn btn-danger" @click="logout">Logout</button>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img class=""
+                        src="https://wp.xpeedstudio.com/seocify/home-fifteen/wp-content/uploads/sites/27/2020/03/home17-banner-image-min.png"
+                        alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header -->
+    <div class="container mt-5">
+        <slot />
+    </div>
+    </div>
+</template>
+<script>
+import { useToast } from 'vue-toastification';
+export default {
+    name: "MyMaster",
+    props: {
+        message:String,
+    },
+    created(){
+        if(this.message){
+            const toast = useToast();
+            switch(JSON.parse(this.message).type){
+                case 's':
+                    toast.success(JSON.parse(this.message).message, {
+                        timeout: 2000,
+                    })
+                    break;
+                case 'e':
+                    toast.error(JSON.parse(this.message).message, {
+                        timeout: 2000,
+                    })
+                    break;
+                case 'i':
+                    toast.info(JSON.parse(this.message).message, {
+                        timeout: 2000,
+                    })
+                    break;
+            }
+        }
+    },
+    methods: {
+        logout(){
+            this.$root.user = null;
+            localStorage.setItem('auth', 'null');
+            this.$router.push({
+                name:"login",
+                params:{
+                    message: JSON.stringify({
+                        type:"e",
+                        message:`Please login again !`,
+                    })
+                }
+            });
+        },
+    }
+}
+</script>
