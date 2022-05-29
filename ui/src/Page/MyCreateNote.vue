@@ -2,95 +2,44 @@
     <MyMaster>
         <div class="row">
             <!-- For Category and Information -->
-            <div class="col-md-4">
-                <div class="card bg-gray-100">
-                    <div class="card-body">
-                        <li class="list-group-item bg-bg text-white">
-                            Label
-                        </li>
-                        <ul class="list-group label">
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Laravel Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Vue JS Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Vue JS Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Vue JS Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <a href="" class="float-right">View All</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card bg-gray-100">
-                    <div class="card-body">
-                        <li class="list-group-item bg-bg text-white">
-                            Contribute Notes
-                            <a href="" class="badge badge-dark  text-white float-right">All</a>
-                        </li>
-                        <ul class="list-group label">
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Laravel Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Vue Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Income Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
+            <MySideBar />
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="text-white">Create Note</h3>
                     </div>
                     <div class="card-body">
-                        <form action="">
+                        <form @submit.prevent="create">
                             <div class="form-group">
-                                <input type="text" name="title" class="form-control border-0 bg-dark"
+                                <input v-model="name" type="text" name="title" class="form-control border-0 bg-dark"
                                     placeholder="enter title" id="">
+                                <small class="text text-danger" v-if="error.name">{{ error.name[0] }}</small>
                             </div>
                             <div class="form-group">
                                 <color :swatches="colorlist" v-model="color" inline background-color="32325D"/>
+                                <small class="text text-danger" v-if="error.color_id">{{ error.color_id[0] }}</small>
+                            </div>
+                            <div class="form-group">
+                                <select v-model="label_id" class="form-control bg-dark text-white">
+                                    <option value="">Choose Label</option>
+                                    <option 
+                                    :value="l.id"
+                                    :key="l.id" 
+                                    v-for="l in $root.ColorLabel.label"
+                                    >
+                                        {{ l.name }}
+                                    </option>
+                                </select>
+                                <small class="text text-danger" v-if="error.label_id">{{ error.label_id[0] }}</small>
                             </div>
                             <div class="form-group" style="background:white;">
                                 <quill-editor v-model:content="description" contentType="html" theme="snow" />
+                                <small class="text text-danger" v-if="error.description">{{ error.description[0] }}</small>
                             </div>
-                            <input type="submit" value="Create" class="btn btn-dark">
+                            <button type="submit" class="btn btn-dark" :disabled="loading">
+                                Create
+                                 <span v-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            </button>
                         </form>
 
                     </div>
@@ -104,18 +53,26 @@ import color from "vue3-swatches";
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import MyMaster from './Layout/MyMaster.vue';
+import { cusaxios } from "@/config";
+import { useToast } from "vue-toastification";
+import MySideBar from "./Layout/MySideBar.vue";
 
 export default {
     name:"MyCreateNote",
-    components:{ MyMaster, color, QuillEditor },
+    components:{ MyMaster, color, QuillEditor, MySideBar },
     data(){
         return{
             color:"#3398DB",
             colorlist:[],
+            label_id:"",
+            name:"",
             description:"",
+            loading:false,
+            error:{},
         };
     },
     created(){
+        this.$root.current_page = "create_note";    
         this.$root.ColorLabel.color.map(c=>{
                 this.colorlist.push(c.name);
         })
@@ -126,6 +83,30 @@ export default {
                 this.colorlist.push(c.name);
             })
         }
-    }
+    },
+    methods:{
+        async create(){
+            this.loading = true;
+            const c = this.$root.ColorLabel.color.filter(c=>{
+                return c.name == this.color;
+            });
+            const color_id = c[0].id;
+            const res = await cusaxios.post('/note/create', {
+                name:this.name,
+                label_id:this.label_id,
+                color_id,
+                description:this.description,
+            });
+            this.loading = false;
+            const toast = useToast();
+            if(res.data.success){
+                toast.success("Note created successfully !", {
+                    timeout: 2000,
+                })
+            }else{
+                this.error = res.data.data;
+            }
+        },
+    },
 }
 </script>

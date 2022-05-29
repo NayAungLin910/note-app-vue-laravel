@@ -4,7 +4,7 @@
     <div class="container-fluid" id="header">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand text-white" href="#">MMC-Note</a>
+                <router-link to="/" class="navbar-brand text-white">MMC-Note</router-link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -14,10 +14,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <router-link to="/" class="nav-link">Home</router-link>
+                            <router-link to="/" class="nav-link" v-if="this.$root.current_page !== 'index'">Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/note/create" class="nav-link">Create Note</router-link>
+                            <router-link to="/note/create" class="nav-link" v-if="this.$root.current_page == 'index'">Create Note</router-link>
                         </li>
                     </ul>
                     <div class="form-inline mr-5">

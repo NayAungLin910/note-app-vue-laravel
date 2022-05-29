@@ -2,77 +2,7 @@
     <MyMaster>
             <div class="row">
             <!-- For Category and Information -->
-            <div class="col-md-4">
-                <div class="card bg-gray-100">
-                    <div class="card-body">
-                        <li class="list-group-item bg-bg text-white">
-                            Label
-                        </li>
-                        <ul class="list-group label">
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Laravel Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Vue JS Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Vue JS Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <span class="fas fa-tags text-white text-small"></span>
-                                &nbsp; &nbsp;
-                                Vue JS Note
-                                <span class="badge badge-primary float-right">3</span>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <a href="" class="float-right">View All</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card bg-gray-100">
-                    <div class="card-body">
-                        <li class="list-group-item bg-bg text-white">
-                            Contribute Notes
-                            <a href="" class="badge badge-dark  text-white float-right">All</a>
-                        </li>
-                        <ul class="list-group label">
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Laravel Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Vue Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Income Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
+            <MySideBar />
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
@@ -334,9 +264,13 @@
 </template>
 <script>
 import MyMaster from './Layout/MyMaster.vue';
+import MySideBar from './Layout/MySideBar.vue';
 
 export default {
     name: 'MyIndex',
-    components: { MyMaster },
+    components: { MyMaster, MySideBar },
+    created(){
+        this.$root.current_page = "index";
+    }
 }
 </script>

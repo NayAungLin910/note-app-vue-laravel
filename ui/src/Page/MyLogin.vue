@@ -43,6 +43,9 @@ export default{
             error:{}
         }
     },
+    created(){
+        this.$root.current_page = "login";
+    },
     methods:{
         async login(){
             this.loading = true;

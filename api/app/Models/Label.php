@@ -13,4 +13,7 @@ class Label extends Model
         'name',
         'slug',
     ];
+    public function note(){
+        return $this->hasMany(Note::class);
+    }
 }

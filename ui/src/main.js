@@ -13,6 +13,7 @@ const app = createApp({
                 color: [],
                 label: [],
             },
+            current_page:"",
         }
     },  
     created(){

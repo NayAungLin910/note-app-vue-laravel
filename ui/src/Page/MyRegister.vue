@@ -62,6 +62,9 @@ export default {
             loading: false,
         }
     },
+    created(){
+        this.$root.current_page = "register";
+    },
     methods: {
         chooseImage(e){
             this.image = e.target.files[0];

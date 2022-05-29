@@ -7,11 +7,26 @@ use App\Models\Label;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class NoteApi extends Controller
 {
     public function create(Request $request){
+        $v = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+            'label_id' => 'required',
+            'color_id' => 'required',
+        ]);
+        if($v->fails()){
+            return response()->json([
+                'success'=>false,
+                'status'=>500,
+                'data'=>$v->errors(),
+            ]);
+        }
+
         $user_id = Auth::guard('api')->user()->id;
         $note = Note::create([
             'slug'=>uniqid() . Str::slug($request->name),
@@ -30,7 +45,7 @@ class NoteApi extends Controller
 
     public function ColorLabel(){
         $color = Color::all();
-        $label = Label::where("user_id", Auth::guard('api')->user()->id)->latest()->get(); 
+        $label = Label::where("user_id", Auth::guard('api')->user()->id)->withCount('note')->latest()->get(); 
         return response()->json([
             'success'=>true,
             'status'=>200,  
