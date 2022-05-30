@@ -55,4 +55,13 @@ class NoteApi extends Controller
             ],
         ]);
     }
+
+    public function all(){
+        $note = Note::latest()->with('color')->paginate(6);
+        return response()->json([
+            'success'=>true,
+            'status'=>200,  
+            'data'=> $note,
+        ]);
+    }
 }

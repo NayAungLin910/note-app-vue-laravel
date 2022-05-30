@@ -16,4 +16,8 @@ class Note extends Model
         'name',
         'description',
     ];
+
+    public function color(){
+        return $this->belongsTo(Color::class);
+    }
 }

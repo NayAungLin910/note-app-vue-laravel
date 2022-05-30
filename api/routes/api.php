@@ -10,6 +10,7 @@ Route::post('/login', [AuthApi::class, 'login']);
 Route::middleware(['auth:api',])->group(function(){
     Route::post('/note/create',  [NoteApi::class, 'create']);
     Route::get('/colorlabel',  [NoteApi::class, 'ColorLabel']);
+    Route::get('/note/', [NoteApi::class, 'all']);
 });
 
 Route::get('/need/login', function(){

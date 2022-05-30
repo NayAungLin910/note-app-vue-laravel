@@ -32,8 +32,25 @@
                                 </select>
                                 <small class="text text-danger" v-if="error.label_id">{{ error.label_id[0] }}</small>
                             </div>
-                            <div class="form-group" style="background:white;">
-                                <quill-editor v-model:content="description" contentType="html" theme="snow" />
+                            <div class="form-group">
+                                <editor
+                                id = "demo" 
+                                v-model="description" 
+                                api-key="x4gq5qn987chdhj1z8n99c6c3l63nj4bobfc940pyxb5w5tq"
+                                :init="{
+                                    height: 300,
+                                    menubar: false,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview anchor',
+                                        'searchreplace visualblocks code fullscreen',
+                                        'insertdatetime media table paste code help wordcount'
+                                    ],
+                                    toolbar:
+                                        'undo redo | formatselect | bold italic backcolor | \
+                                        alignleft aligncenter alignright alignjustify | \
+                                        bullist numlist outdent indent | removeformat | help',
+                                }"
+                                />
                                 <small class="text text-danger" v-if="error.description">{{ error.description[0] }}</small>
                             </div>
                             <button type="submit" class="btn btn-dark" :disabled="loading">
@@ -50,8 +67,7 @@
 </template>
 <script>
 import color from "vue3-swatches";
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import Editor from '@tinymce/tinymce-vue';
 import MyMaster from './Layout/MyMaster.vue';
 import { cusaxios } from "@/config";
 import { useToast } from "vue-toastification";
@@ -59,7 +75,7 @@ import MySideBar from "./Layout/MySideBar.vue";
 
 export default {
     name:"MyCreateNote",
-    components:{ MyMaster, color, QuillEditor, MySideBar },
+    components:{ MyMaster, color, MySideBar, Editor },
     data(){
         return{
             color:"#3398DB",
