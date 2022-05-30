@@ -18,12 +18,12 @@
                                             <div class="row">
                                                 <div class="col-md-6 text-center">
                                                     <a href="" class="badge badge-primary">
-                                                        View
+                                                        <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6 text-center">
                                                     <a href="" class="badge badge-warning">
-                                                        Delete
+                                                        <i class="fa-solid fa-delete-left"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary btn-fab btn-icon btn-round">
-                                    View More
+                                    <i class="fa-solid fa-arrow-down"></i>
                                 </button>
                             </div>
                         </div>

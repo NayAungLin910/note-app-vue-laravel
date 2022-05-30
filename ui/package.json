@@ -18,6 +18,7 @@
     "vue-swatches": "^2.1.1",
     "vue-toastification": "^2.0.0-rc.5",
     "vue2-editor": "^2.10.3",
+    "vue3-editor": "^0.1.1",
     "vue3-swatches": "^1.0.8"
   },
   "devDependencies": {
