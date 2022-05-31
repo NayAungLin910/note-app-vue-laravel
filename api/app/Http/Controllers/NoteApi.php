@@ -12,6 +12,16 @@ use Illuminate\Support\Str;
 
 class NoteApi extends Controller
 {
+    public function noteByLabel($slug){
+        $label_id = Label::where('slug', $slug)->first()->id;
+        $note = Note::latest()->where('label_id', $label_id)->with('color')->paginate(6);
+        return response()->json([
+            'success'=>true,
+            'status'=>200,  
+            'data'=> $note,
+        ]);
+    }
+
     public function create(Request $request){
         $v = Validator::make($request->all(), [
             'name' => 'required',

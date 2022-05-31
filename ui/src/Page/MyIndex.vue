@@ -23,7 +23,7 @@
                                                 </div>
                                                 <div class="col-md-6 text-center">
                                                     <a href="" class="badge badge-warning">
-                                                        <i class="fa-solid fa-delete-left"></i>
+                                                        <i class="fa-solid fa-share"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -36,7 +36,11 @@
                         <!-- For Load -->
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button class="btn btn-primary btn-fab btn-icon btn-round">
+                                <button
+                                 @click="loadMore" 
+                                 class="btn btn-primary btn-fab btn-icon btn-round"
+                                 v-show="page !== null"
+                                 >
                                     <i class="fa-solid fa-arrow-down"></i>
                                 </button>
                             </div>
@@ -58,24 +62,51 @@ export default {
     data(){
         return{
             notes:[],
+            page:1,
+            route:'/note',
         }
     },
     created(){
         this.$root.current_page = "index";
-
+        if(this.$route.params.slug){
+            this.route = "/note/label/"+this.$route.params.slug;
+        }
         const loader = this.$loading.show({
             loader: "bars",
             opacity: 0.3,
             backgroundColor: "black",
             color: "white",
         });
-        cusaxios.get('/note/')
+        cusaxios.get(this.route)
         .then(res => {
-            const {data} = res.data;
-            this.notes = data.data; 
             loader.hide();
+            const {data} = res.data;
+            if(data.next_page_url == null){
+                    this.page = null;
+            }
+            this.notes = data.data; 
         })
-        
+    },
+    methods: {
+        loadMore(){
+            this.page++;
+            const loader = this.$loading.show({
+                loader: "bars",
+                opacity: 0.3,
+                backgroundColor: "black",
+                color: "white",
+            });    
+            cusaxios.get(this.route+'?page='+this.page)
+            .then(res => {
+                loader.hide();
+                const {data} = res.data;
+                if(data.next_page_url == null){
+                    this.page = null;
+                }
+                this.notes = [...this.notes, ...data.data]  ;
+                console.log(this.notes);
+            });
+        },
     }
 }
 </script>

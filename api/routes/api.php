@@ -11,6 +11,7 @@ Route::middleware(['auth:api',])->group(function(){
     Route::post('/note/create',  [NoteApi::class, 'create']);
     Route::get('/colorlabel',  [NoteApi::class, 'ColorLabel']);
     Route::get('/note/', [NoteApi::class, 'all']);
+    Route::get('/note/label/{slug}', [NoteApi::class, 'noteByLabel']);
 });
 
 Route::get('/need/login', function(){

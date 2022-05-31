@@ -36,6 +36,13 @@ const routes = [
         props:true,
         beforeEnter: ifNotAuth,
     },
+    {
+        path: "/note/label/:slug",
+        name: "noteByLabel",
+        component: MyIndex,
+        props:true,
+        beforeEnter: ifNotAuth,
+    },
 ]
 
 const router = createRouter({

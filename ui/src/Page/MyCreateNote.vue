@@ -50,9 +50,7 @@
 </template>
 <script>
 import color from "vue3-swatches";
-// import Editor from '@tinymce/tinymce-vue';
 import { VueEditor } from "vue3-editor";
-
 import MyMaster from './Layout/MyMaster.vue';
 import { cusaxios } from "@/config";
 import { useToast } from "vue-toastification";

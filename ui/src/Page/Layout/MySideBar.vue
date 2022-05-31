@@ -10,7 +10,13 @@
                              v-for="l in $root.ColorLabel.label" 
                              :key="l.id" 
                              :to="`/note/label/${l.slug}`">
-                                <li class="list-group-item bg-dark text-white">
+                                <li 
+                                class="list-group-item bg-dark" 
+                                :class="{
+                                    'text-success':l.slug == $route.params.slug,
+                                    'text-white':l.slug !== $route.params.slug,
+                                }"
+                                >
                                     <span class="fas fa-tags text-white text-small"></span>
                                     &nbsp; &nbsp;
                                     {{ l.name }}
