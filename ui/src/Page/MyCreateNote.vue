@@ -5,8 +5,8 @@
             <MySideBar />
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-dark">
-                        <h3 class="text-white">Create Note</h3>
+                    <div class="card-header" :style="{backgroundColor:color}" :class="{'bg-dark': !isUpdate}">
+                        <h3 class="text-white">{{ isUpdateTitle }}</h3>
                     </div>
                     <div class="card-body">
                         <form @submit.prevent="create">
@@ -37,7 +37,7 @@
                                 <small class="text text-danger" v-if="error.description">{{ error.description[0] }}</small>
                             </div>
                             <button type="submit" class="btn btn-dark" :disabled="loading">
-                                Create
+                                {{ btnName }}
                                  <span v-show="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             </button>
                         </form>
@@ -68,10 +68,32 @@ export default {
             description:"",
             loading:false,
             error:{},
+            btnName:"Create",
         };
     },
     created(){
-        this.$root.current_page = "create_note";    
+        this.$root.current_page = "create_note";
+        const {params} = this.$route;
+        if(params.slug){
+            this.btnName = "Edit";
+            const loader = this.$loading.show({
+                loader: "bars",
+                opacity: 0.3,
+                backgroundColor: "black",
+                color: "white",
+            });
+            cusaxios.get(`/note/${params.slug}`)
+            .then(res=>{
+                loader.hide();
+                const {data, success} = res.data;
+                if(success){
+                    this.name = data.name;
+                    this.label_id = data.label_id;
+                    this.description = data.description;
+                    this.color = data.color.name;
+                }
+            })
+        }    
         this.$root.ColorLabel.color.map(c=>{
                 this.colorlist.push(c.name);
         })
@@ -107,5 +129,23 @@ export default {
             }
         },
     },
+    computed:{
+        isUpdate(){
+            const {params} = this.$route;
+            if(params.slug){
+                return true;
+            }else{
+                return false;
+            }
+        },
+        isUpdateTitle(){
+            const {params} = this.$route;
+            if(params.slug){
+                return "Edit Note";
+            }else{
+                return "Create Note";
+            }  
+        }
+    }
 }
 </script>

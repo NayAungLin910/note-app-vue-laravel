@@ -20,4 +20,10 @@ class Note extends Model
     public function color(){
         return $this->belongsTo(Color::class);
     }
+    public function label(){
+        return $this->belongsTo(Label::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

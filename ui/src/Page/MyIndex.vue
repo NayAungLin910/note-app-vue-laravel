@@ -9,7 +9,7 @@
                         <div class="row">
                             <!-- Loop Product -->
                             <div class="col-md-4" v-for="n in notes" :key="n.id">
-                                <a href="detail.html">
+                                <router-link :to="`/note/${n.slug}`">
                                     <div class="card">
                                         <div class="card-header" :style="{ backgroundColor:n.color.name }">
                                             <h5 class="text-white">{{ n.name }}</h5>
@@ -29,7 +29,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </a>
+                                </router-link>
 
                             </div>
                         </div>

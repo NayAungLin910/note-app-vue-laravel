@@ -37,6 +37,13 @@ const routes = [
         beforeEnter: ifNotAuth,
     },
     {
+        path: "/note/:slug",
+        name: "note-detail",
+        component: MyCreateNote,
+        props:true,
+        beforeEnter: ifNotAuth,
+    },
+    {
         path: "/note/label/:slug",
         name: "noteByLabel",
         component: MyIndex,
