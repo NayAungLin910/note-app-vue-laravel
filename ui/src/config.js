@@ -6,7 +6,14 @@ export const cusaxios = axios.create({
 })
 
 const auth = localStorage.getItem('auth');
-if(auth !== 'null'){
+
+if(!auth){
+    localStorage.setItem('auth', null);
+}else if(auth == ''){
+    localStorage.setItem('auth', null);
+}
+
+if(auth && auth !== 'null'){
     const token = JSON.parse(auth).token;
     cusaxios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
+} 

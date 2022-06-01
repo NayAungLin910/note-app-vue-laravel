@@ -2,7 +2,7 @@
     <MyMaster>
         <div class="row">
             <!-- For Category and Information -->
-            <MySideBar />
+            <MySideBar :key="componentKey"/>
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header" :style="{backgroundColor:color}" :class="{'bg-dark': !isUpdate}">
@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <form @submit.prevent="create">
                             <div class="form-group">
-                                <input v-model="name" type="text" name="title" class="form-control border-0 bg-dark"
+                                <input v-model="name" type="text" name="title" class="form-control border-0 bg-dark text-white"
                                     placeholder="enter title" id="">
                                 <small class="text text-danger" v-if="error.name">{{ error.name[0] }}</small>
                             </div>
@@ -32,7 +32,7 @@
                                 </select>
                                 <small class="text text-danger" v-if="error.label_id">{{ error.label_id[0] }}</small>
                             </div>
-                            <div class="form-group" style="background-color:white">
+                            <div class="form-group" :style="{backgroundColor:color}">
                                 <vue-editor v-model="description"></vue-editor>
                                 <small class="text text-danger" v-if="error.description">{{ error.description[0] }}</small>
                             </div>
@@ -69,6 +69,8 @@ export default {
             loading:false,
             error:{},
             btnName:"Create",
+            componentKey: 0,
+
         };
     },
     created(){
@@ -106,13 +108,22 @@ export default {
         }
     },
     methods:{
+        forceRerender() {
+            this.componentKey += 1;
+        },
         async create(){
+            // check update or create
+            var url = "/note/create";
+            if(this.isUpdate){
+                url = "/note/edit/"+this.$route.params.slug;
+            }
+
             this.loading = true;
             const c = this.$root.ColorLabel.color.filter(c=>{
                 return c.name == this.color;
             });
             const color_id = c[0].id;
-            const res = await cusaxios.post('/note/create', {
+            const res = await cusaxios.post(url, {
                 name:this.name,
                 label_id:this.label_id,
                 color_id,
@@ -121,9 +132,16 @@ export default {
             this.loading = false;
             const toast = useToast();
             if(res.data.success){
-                toast.success("Note created successfully !", {
-                    timeout: 2000,
-                })
+                if(this.isUpdate){
+                    toast.success("Updated successfully !", {
+                        timeout: 2000,
+                    })
+                    this.$router.push("/note/" + res.data.data.slug);
+                }else{
+                    toast.success("Created successfully !", {
+                        timeout: 2000,
+                    })
+                }
             }else{
                 this.error = res.data.data;
             }
