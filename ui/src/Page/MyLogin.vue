@@ -72,7 +72,8 @@ export default{
             }else{
                 this.$root.user = data.user;
                 // store to local
-                localStorage.setItem('auth', JSON.stringify(data));
+                localStorage.setItem('auth', JSON.stringify(data));  
+                
                 // push
                 this.$router.push({
                     name:"index",
@@ -82,7 +83,8 @@ export default{
                             message:`Welcome ${data.user.name}`, 
                         }),
                     }
-                });  
+                });
+                
             }
         },
     }

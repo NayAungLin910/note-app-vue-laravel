@@ -59,5 +59,10 @@ class DatabaseSeeder extends Seeder
             'slug' => 'Marketing',
             'name' => 'Marketing'
         ]);
+        Label::create([
+            'user_id' => '3',
+            'slug' => 'dancing-three',
+            'name' => 'Dancing'
+        ]);
     }
 }

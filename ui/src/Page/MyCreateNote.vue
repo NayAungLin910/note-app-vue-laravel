@@ -25,7 +25,7 @@
                                     <option 
                                     :value="l.id"
                                     :key="l.id" 
-                                    v-for="l in $root.ColorLabel.label"
+                                    v-for="l in ColorLabel.label"
                                     >
                                         {{ l.name }}
                                     </option>
@@ -61,7 +61,7 @@ export default {
     components:{ MyMaster, color, MySideBar, VueEditor },
     data(){
         return{
-            color:"#3398DB",
+            color:"#71B6B7",
             colorlist:[],
             label_id:"",
             name:"",
@@ -70,11 +70,18 @@ export default {
             error:{},
             btnName:"Create",
             componentKey: 0,
-
+            ColorLabel:{
+                color:[],
+                label:[],
+            }
         };
     },
     created(){
         this.$root.current_page = "create_note";
+        cusaxios.get(`/colorlabel`)
+        .then(res=>{
+            this.ColorLabel = res.data.data;    
+        });
         const {params} = this.$route;
         if(params.slug){
             this.btnName = "Edit";
@@ -84,6 +91,13 @@ export default {
                 backgroundColor: "black",
                 color: "white",
             });
+
+            const auth = localStorage.getItem('auth');
+            if(auth && auth !== 'null'){
+                const token = JSON.parse(auth).token;
+                cusaxios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            }
+
             cusaxios.get(`/note/${params.slug}`)
             .then(res=>{
                 loader.hide();

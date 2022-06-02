@@ -7,7 +7,7 @@
                         </li>
                         <ul class="list-group label">
                             <router-link
-                             v-for="l in $root.ColorLabel.label" 
+                             v-for="l in ColorLabel.label" 
                              :key="l.id" 
                              :to="`/note/label/${l.slug}`">
                                 <li 
@@ -62,7 +62,22 @@
     </div>
 </template>
 <script>
+import { cusaxios } from '@/config';
 export default {
+    data(){
+        return{
+            ColorLabel:{
+                color:[],
+                label:[],
+            }
+        }
+    },
     name:"MySideBar",
+    created(){
+        cusaxios.get(`/colorlabel`)
+            .then(res=>{
+                this.ColorLabel = res.data.data;    
+            });
+    }
 }
 </script>

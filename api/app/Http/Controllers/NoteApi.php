@@ -55,7 +55,8 @@ class NoteApi extends Controller
 
     public function noteByLabel($slug){
         $label_id = Label::where('slug', $slug)->first()->id;
-        $note = Note::latest()->where('label_id', $label_id)->with('color')->paginate(6);
+        $user_id = Auth::guard('api')->user()->id;
+        $note = Note::latest()->where('label_id', $label_id)->where('user_id', $user_id)->with('color')->paginate(6);
         return response()->json([
             'success'=>true,
             'status'=>200,  
@@ -108,7 +109,8 @@ class NoteApi extends Controller
     }
 
     public function all(){
-        $note = Note::latest()->with('color')->paginate(6);
+        $user_id = Auth::guard('api')->user()->id;
+        $note = Note::latest()->with('color')->where('user_id', $user_id)->paginate(6);
         return response()->json([
             'success'=>true,
             'status'=>200,  
