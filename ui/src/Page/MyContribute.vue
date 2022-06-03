@@ -11,22 +11,28 @@
                         <form class="text-white">
                             <div class="form-group">
                                 <label for="">Enter Email</label>
-                                <input type="text" class="form-control" required placeholder="enter email">
+                                <input 
+                                  v-model.lazy="email"
+                                  type="text" 
+                                  class="form-control" 
+                                  required 
+                                  placeholder="enter email"
+                                >
                             </div>
                         </form>
 
                         <!--When email is found-->
-                        <div class="card text-white">
+                        <div class="card text-white" v-show="user.name">
                             <div class="card-header bg-primary">
-                                <h2>Nay Aung Lin</h2>
+                                <h2>{{ user.name }}</h2>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <img 
-                                         src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png" 
+                                         :src="`${image_url}/${user.image}`" 
                                          alt=""
-                                         style="width:50%"
+                                         style="width:70%"
                                          />
                                     </div>
                                     <div class="col-md-8">
@@ -36,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="alert alert-danger">User Not Found!</div>
+                        <div class="alert alert-danger" v-show="user=='not_user'">User Not Found!</div>
                     </div>
                 </div>
             </div>
@@ -46,9 +52,28 @@
 <script>
 import MyMaster from './Layout/MyMaster.vue';
 import MySideBar from './Layout/MySideBar.vue';
+import { cusaxios, image_url } from '@/config';
 export default {
     name: "MyContribute",
     components: { MyMaster, MySideBar },
     props:{message: Object},
+    data(){
+        return{
+            email: "",
+            user: false,
+            image_url,
+        }
+    },
+    watch: {
+        async email(n){
+            const res = await cusaxios.get("/find/user/"+n)
+            const { data } = res.data;
+            if(data == 'not_user'){
+                this.user = 'not_user';
+            }else{
+                this.user = data;
+            }
+        }
+    }
 };
 </script>

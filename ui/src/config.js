@@ -1,4 +1,6 @@
 export const api_url = "http://localhost:8000/api";
+export const image_url = "http://localhost:8000/";
+
 import axios from "axios";
 
 export const cusaxios = axios.create({
