@@ -19,6 +19,9 @@
                         <li class="nav-item">
                             <router-link to="/note/create" class="nav-link" v-if="this.$root.current_page == 'index'">Create Note</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link to="/label/create" class="nav-link" v-if="this.$root.current_page == 'index'">Create Label</router-link>
+                        </li>
                     </ul>
                     <div class="form-inline mr-5">
                         <div class="dropdown">
@@ -38,8 +41,8 @@
         </nav>
         <div class="container mt-5">
             <div class="row">
-                <div class="col-md-6">
-                    <h1 class="text-white">Welcome From MM-Coder Note</h1>
+                <div class="col-md-6 text-white">
+                    <h1>Welcome From MM-Coder Note</h1>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium
                         sequi voluptas similique sed minima rerum labore reprehenderit, illo

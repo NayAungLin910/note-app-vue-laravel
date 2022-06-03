@@ -95,6 +95,30 @@ class NoteApi extends Controller
         ]);
     }
 
+    public function labelCreate(Request $request){
+        $v = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+        if($v->fails()){
+            return response()->json([
+                'success'=>false,
+                'status'=>500,
+                'data'=>$v->errors(),
+            ]);
+        }   
+        $user_id = Auth::guard('api')->user()->id;
+        $label = Label::create([
+            'user_id'=>$user_id,
+            'name'=>$request->name,
+            'slug'=>Str::slug(uniqid() . $request->name),
+        ]);
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'data'=>$label,
+        ]);     
+    }
+
     public function ColorLabel(){
         $color = Color::all();
         $label = Label::where("user_id", Auth::guard('api')->user()->id)->withCount('note')->latest()->get(); 

@@ -26,22 +26,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Color::create([
-            'name' => 'bg-dark',
+            'name' => '#F3DA25',
         ]);
         Color::create([
-            'name' => 'bg-danger',
+            'name' => '#85DED7',
         ]);
         Color::create([
-            'name' => 'bg-success',
+            'name' => '#C70039',
         ]);
         Color::create([
-            'name' => 'bg-primary',
+            'name' => '#FF5733',
         ]);
         Color::create([
-            'name' => 'bg-warning',
-        ]);
-        Color::create([
-            'name' => 'bg-info',
+            'name' => '#8E8A6F',
         ]);
 
         Label::create([

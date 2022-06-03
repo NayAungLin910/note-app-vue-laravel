@@ -61,7 +61,7 @@ export default {
     components:{ MyMaster, color, MySideBar, VueEditor },
     data(){
         return{
-            color:"#71B6B7",
+            color:"#85DED7",
             colorlist:[],
             label_id:"",
             name:"",

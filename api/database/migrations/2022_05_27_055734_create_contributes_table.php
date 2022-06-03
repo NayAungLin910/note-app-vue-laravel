@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Note;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +19,7 @@ class CreateContributesTable extends Migration
             $table->id();
             $table->foreignIdFor(User::class, 'contributor_id');
             $table->foreignIdFor(User::class, 'contributed_id');
+            $table->foreignIdFor(Note::class, 'note_id');
             $table->timestamps();
         });
     }

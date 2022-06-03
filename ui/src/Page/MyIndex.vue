@@ -22,9 +22,9 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6 text-center">
-                                                    <a href="" class="badge badge-warning">
+                                                    <router-link :to="`/note/contribute/${n.slug}`" class="badge badge-warning">
                                                         <i class="fa-solid fa-share"></i>
-                                                    </a>
+                                                    </router-link>
                                                 </div>
                                             </div>
                                         </div>
