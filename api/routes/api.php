@@ -18,6 +18,7 @@ Route::middleware(['auth:api',])->group(function(){
     Route::get('/note/label/{slug}', [NoteApi::class, 'noteByLabel']);
 
     Route::get('/find/user/{email}', [ContributeController::class, 'findUser']);
+    Route::post('/contribute/', [ContributeController::class, 'contribute']);
 });
 
 Route::get('/need/login', function(){

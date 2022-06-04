@@ -1,7 +1,7 @@
 <template>
     <MyMaster :message="message">
         <div class="row">
-            <MySideBar />
+            <MySideBar :key="componentKey"/>
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-dark">
@@ -36,7 +36,7 @@
                                          />
                                     </div>
                                     <div class="col-md-8">
-                                        <button class="btn btn-primary">Contribute</button>
+                                        <button class="btn btn-primary" @click="contribute">Contribute</button>
                                     </div>
                                 </div>
                             </div>
@@ -53,6 +53,7 @@
 import MyMaster from './Layout/MyMaster.vue';
 import MySideBar from './Layout/MySideBar.vue';
 import { cusaxios, image_url } from '@/config';
+import { useToast } from 'vue-toastification';
 export default {
     name: "MyContribute",
     components: { MyMaster, MySideBar },
@@ -62,6 +63,30 @@ export default {
             email: "",
             user: false,
             image_url,
+            componentKey: 0,
+        }
+    },
+    created(){
+        console.log(this.$attrs);
+    },
+    methods: {
+        forceRerender() {
+            this.componentKey += 1;
+        },
+        async contribute(){
+            const contributed_id = this.user.id;
+            const slug = this.$attrs.slug;
+            const res =  await cusaxios.post('/contribute', {
+                contributed_id,
+                slug,
+            });
+            if(res.data.success == true){
+                const toast = useToast();
+                toast.success('Contributed Successfully !', {
+                    timeout: 2000,
+                });
+                this.forceRerender();
+            }
         }
     },
     watch: {

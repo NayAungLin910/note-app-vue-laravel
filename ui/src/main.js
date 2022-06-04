@@ -14,6 +14,8 @@ const app = createApp({
             ColorLabel:{
                 color: [],
                 label: [],
+                share_note: [],
+                receive_note: [],
             },
             current_page:"",
         }

@@ -30,30 +30,39 @@
                 <div class="card bg-gray-100">
                     <div class="card-body">
                         <li class="list-group-item bg-bg text-white">
-                            Contribute Notes
+                            Received Notes
                             <a href="" class="badge badge-dark  text-white float-right">All</a>
                         </li>
                         <ul class="list-group label">
-                            <li class="list-group-item bg-dark text-white">
+                            <li 
+                                class="list-group-item bg-dark text-white" 
+                                v-for="n in ColorLabel.receive_note"
+                                :key="n.id"
+                            >
                                 <i class="far fa-newspaper"></i>
                                 &nbsp; &nbsp;
-                                Laravel Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
+                                {{ n.note.name }}
+                                <small> from </small>
+                                <b class="text-primary">{{ n.share.name }}</b>
                             </li>
-                            <li class="list-group-item bg-dark text-white">
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <li class="list-group-item bg-bg text-white">
+                            Shared Notes
+                            <a href="" class="badge badge-dark  text-white float-right">All</a>
+                        </li>
+                        <ul class="list-group label">
+                            <li 
+                                class="list-group-item bg-dark text-white" 
+                                v-for="n in ColorLabel.share_note"
+                                :key="n.id"
+                            >
                                 <i class="far fa-newspaper"></i>
                                 &nbsp; &nbsp;
-                                Vue Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
-                            </li>
-                            <li class="list-group-item bg-dark text-white">
-                                <i class="far fa-newspaper"></i>
-                                &nbsp; &nbsp;
-                                Income Note
-                                <small> from</small>
-                                <b class="text-primary">Myo Thant Kyaw</b>
+                                {{ n.note.name }}
+                                <small> to </small>
+                                <b class="text-primary">{{ n.receiver.name }}</b>
                             </li>
                         </ul>
                     </div>
@@ -69,6 +78,8 @@ export default {
             ColorLabel:{
                 color:[],
                 label:[],
+                share_note:[],
+                receive_note:[],
             }
         }
     },

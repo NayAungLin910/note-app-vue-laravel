@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
+use App\Models\Contribute;
 use App\Models\Label;
 use App\Models\Note;
 use Illuminate\Http\Request;
@@ -122,12 +123,17 @@ class NoteApi extends Controller
     public function ColorLabel(){
         $color = Color::all();
         $label = Label::where("user_id", Auth::guard('api')->user()->id)->withCount('note')->latest()->get(); 
+        $auth_user_id = Auth::guard('api')->user()->id;
+        $share = Contribute::where('contributor_id', $auth_user_id)->with('share', 'receiver', 'note')->take(5)->get();
+        $receive = Contribute::where('contributed_id', $auth_user_id)->with('share', 'receiver', 'note')->take(5)->get();
         return response()->json([
             'success'=>true,
             'status'=>200,  
             'data'=>[
                 'color'=>$color,
-                'label'=>$label,
+                'label'=>$label, 
+                'share_note'=>$share,
+                'receive_note'=>$receive,
             ],
         ]);
     }

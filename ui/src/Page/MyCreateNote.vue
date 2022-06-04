@@ -73,15 +73,16 @@ export default {
             ColorLabel:{
                 color:[],
                 label:[],
-            }
+                share_note:[],
+                receive_note:[],
+            }// need this so that when logged out and log in to another account the label data will not be the previous one
         };
     },
     created(){
-        this.$root.current_page = "create_note";
         cusaxios.get(`/colorlabel`)
-        .then(res=>{
-            this.ColorLabel = res.data.data;    
-        });
+            .then(res=>{
+                this.ColorLabel = res.data.data;    
+            });
         const {params} = this.$route;
         if(params.slug){
             this.btnName = "Edit";
@@ -147,14 +148,21 @@ export default {
             const toast = useToast();
             if(res.data.success){
                 if(this.isUpdate){
+                    this.forceRerender();
                     toast.success("Updated successfully !", {
                         timeout: 2000,
                     })
                     this.$router.push("/note/" + res.data.data.slug);
                 }else{
+                    // this.$root.ColorLabel.label.find(l => {
+                    //     if(l.id == this.label_id){
+                    //         l.note_count++;
+                    //     }
+                    // }) // you fixed this by using the forecerenderer method you found on stackoverflow and also by using local var at side bay component
+                    this.forceRerender();
                     toast.success("Created successfully !", {
                         timeout: 2000,
-                    })
+                    });
                 }
             }else{
                 this.error = res.data.data;
