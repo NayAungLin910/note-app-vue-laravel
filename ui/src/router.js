@@ -5,6 +5,8 @@ import MyLogin from "@/Page/MyLogin";
 import MyRegister from "@/Page/MyRegister";
 import MyCreateLabel from "@/Page/MyCreateLabel";
 import MyContribute from "@/Page/MyContribute";
+import MyViewContribute from "@/Page/MyViewContribute";
+import MyProfile from "@/Page/MyProfile";
 import { ifAuth, ifNotAuth } from "./middleware/auth";
 
 const routes = [
@@ -24,6 +26,13 @@ const routes = [
     },
 
     // For authenticated
+    {
+        path: "/profile",
+        name: "profile",
+        component: MyProfile,
+        props:true,
+        beforeEnter: ifNotAuth,
+    },
     {
         path: "/",
         name: "index",
@@ -63,6 +72,13 @@ const routes = [
         path: "/note/contribute/:slug",
         name: "contribute",
         component: MyContribute,
+        props:true,
+        beforeEnter: ifNotAuth,
+    },
+    {
+        path: "/contribute/:option",
+        name: "view-contribute",
+        component: MyViewContribute,
         props:true,
         beforeEnter: ifNotAuth,
     },

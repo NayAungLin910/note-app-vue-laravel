@@ -19,3 +19,4 @@ if(auth && auth !== 'null'){
     const token = JSON.parse(auth).token;
     cusaxios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
+

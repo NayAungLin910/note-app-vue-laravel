@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <li class="list-group-item bg-bg text-white">
                             Received Notes
-                            <a href="" class="badge badge-dark  text-white float-right">All</a>
+                            <router-link to="/contribute/receive" class="badge badge-dark  text-white float-right">All</router-link>
                         </li>
                         <ul class="list-group label">
                             <li 
@@ -50,7 +50,7 @@
                     <div class="card-body">
                         <li class="list-group-item bg-bg text-white">
                             Shared Notes
-                            <a href="" class="badge badge-dark  text-white float-right">All</a>
+                            <router-link to="/contribute/share" class="badge badge-dark  text-white float-right">All</router-link>
                         </li>
                         <ul class="list-group label">
                             <li 

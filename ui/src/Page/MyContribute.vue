@@ -1,5 +1,5 @@
 <template>
-    <MyMaster :message="message">
+    <MyMaster>
         <div class="row">
             <MySideBar :key="componentKey"/>
             <div class="col-md-8">
@@ -57,7 +57,6 @@ import { useToast } from 'vue-toastification';
 export default {
     name: "MyContribute",
     components: { MyMaster, MySideBar },
-    props:{message: Object},
     data(){
         return{
             email: "",

@@ -79,6 +79,7 @@ export default {
         };
     },
     created(){
+        this.$root.current_page = "create-note";
         cusaxios.get(`/colorlabel`)
             .then(res=>{
                 this.ColorLabel = res.data.data;    

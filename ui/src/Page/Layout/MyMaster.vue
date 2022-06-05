@@ -11,30 +11,27 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" v-if="$root.user !== null">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <router-link to="/" class="nav-link" v-if="this.$root.current_page !== 'index'">Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/note/create" class="nav-link" v-if="this.$root.current_page == 'index'">Create Note</router-link>
+                            <router-link to="/note/create" class="nav-link" v-if="this.$root.current_page !== 'create-note'">Create Note</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/label/create" class="nav-link" v-if="this.$root.current_page == 'index'">Create Label</router-link>
+                            <router-link to="/label/create" class="nav-link" v-if="this.$root.current_page !== 'create-label'">Create Label</router-link>
                         </li>
                     </ul>
                     <div class="form-inline mr-5">
-                        <div class="dropdown">
-                            <span id="option" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" class="btn btn-lg bg-dark text-white btn-rounded">
-                                <i class="fas fa-cog"></i>
-                            </span>
-                            <br>
-                            <div class="dropdown-menu text-center bg-dark" aria-labelledby="option">
-                                <span class="fa fa-user text-white"></span><br>
-                                <span class="fas fa-tags text-white mt-4"></span>
-                            </div>
-                        </div>
+                        <router-link class="text-reset me-3" to="/profile" v-if="this.$root.current_page !== 'profile'">
+                            <img
+                                :src="`${image_url}/${$root.user.image}`"
+                                class="image-fluid rounded-circle"
+                                alt="your profile"
+                                height="40"
+                            />
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -44,10 +41,9 @@
                 <div class="col-md-6 text-white">
                     <h1>Welcome From MM-Coder Note</h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium
-                        sequi voluptas similique sed minima rerum labore reprehenderit, illo
-                        recusandae quasi tempore placeat aliquam autem, a soluta nisi totam
-                        temporibus dolorem!
+                        This is just a small individual student project developed to for the user to create account, 
+                        login and create notes, edit notes and even contribute it to another user. Please try to use
+                        it as much as possible since the task of this web app is very simple. 
                     </p>
                     <div v-if="!$root.user">
                         <router-link to="/register" class="btn btn-outline-primary m-2">Register</router-link>
@@ -71,10 +67,16 @@
 </template>
 <script>
 import { useToast } from 'vue-toastification';
+import { image_url } from '@/config';
 export default {
     name: "MyMaster",
     props: {
         message:String,
+    },
+    data(){
+        return{
+            image_url,
+        }
     },
     created(){
         if(this.message){
